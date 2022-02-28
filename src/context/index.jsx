@@ -15,8 +15,28 @@ const initialState = {
 const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
+  const clearItem = () => {
+    dispatch({ type: "CLEAR_ITEM" });
+  };
+
+  const remoteItem = (_id) => {
+    dispatch({ type: "REMOTE_ITEM", payload: _id });
+  };
+
+  const increaseItem = (_id) => {
+    dispatch({ type: "INCREASE_ITEM", payload: _id });
+  };
+
+  const decreaseItem = (_id) => {
+    dispatch({ type: "DECREASE_ITEM", payload: _id });
+  };
+
   return (
-    <AppContext.Provider value={{ ...state }}>{children}</AppContext.Provider>
+    <AppContext.Provider
+      value={{ ...state, clearItem, remoteItem, increaseItem, decreaseItem }}
+    >
+      {children}
+    </AppContext.Provider>
   );
 };
 

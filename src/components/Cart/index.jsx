@@ -3,17 +3,26 @@ import { useGlobalContext } from "../../context";
 import { BsDash, BsPlus } from "react-icons/bs";
 
 const CartItem = () => {
-  const { cart } = useGlobalContext();
+  const { cart, clearItem, remoteItem, increaseItem, decreaseItem } =
+    useGlobalContext();
+
+  if (cart.length === 0) {
+    return (
+      <div className="container text-center p-3 capitalize">
+        <h3 className="text-purple-400">is currently empty</h3>
+      </div>
+    );
+  }
 
   return (
-    <div className="cart w-full bg-gray-100 pt-6">
+    <div className="cart w-full bg-gray-100 pt-6 sm:px-8">
       <div className="container">
         {cart.length &&
           cart.map((item, index) => {
             return (
               <div
                 key={index}
-                className="p-4 border-t border-b mb-1.5 bg-white flex justify-start flex-wrap gap-3"
+                className="p-4 border-t border-b mx-auto mb-1.5 bg-white flex justify-start flex-wrap gap-3"
               >
                 <div className="my-auto h-14">
                   <input type="checkbox" className="" />
@@ -23,7 +32,8 @@ const CartItem = () => {
                   <img src={item.image} alt="image product" />
                   <button
                     type="button"
-                    className="text-indigo-500 hover:text-red-700"
+                    className="text-indigo-500 hover:text-red-700 hover:font-semibold"
+                    onClick={() => remoteItem(item._id)}
                   >
                     remote
                   </button>
@@ -48,7 +58,7 @@ const CartItem = () => {
                       <button
                         type="button"
                         className="border p-1.5 rounded-l"
-                        onClick={() => console.log("oki")}
+                        onClick={() => decreaseItem(item._id)}
                       >
                         <BsDash />
                       </button>
@@ -58,7 +68,7 @@ const CartItem = () => {
                       <button
                         type="button"
                         className="border p-1.5 rounded-r"
-                        onClick={() => console.log("oki")}
+                        onClick={() => increaseItem(item._id)}
                       >
                         <BsPlus />
                       </button>
@@ -73,6 +83,7 @@ const CartItem = () => {
         <button
           type="button"
           className="bg-red-800 px-3 py-1.5 text-white rounded-md font-semibold"
+          onClick={clearItem}
         >
           Clear Cart
         </button>
